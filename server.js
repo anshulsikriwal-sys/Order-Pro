@@ -47,9 +47,10 @@ app.get("/health", (req, res) => {
 });
 
 // Server
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 5001;
+
 app.listen(PORT, () => {
-  console.log(`Server is listening at port number: ${PORT}`);
+  console.log(`Server is listening at port ${PORT}`);
 });
 
 app.get("/api/profile", authMiddleware, (req, res) => {
