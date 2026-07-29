@@ -41,14 +41,14 @@ export const isBackendUp = async () => {
 export const authApi = {
   login: (credentials) => http.post("/auth/login", credentials),
   register: (userData) => http.post("/auth/register", userData),
-  getProfile: () => http.get("/auth/profile"),
+  getProfile: () => http.get("/profile"),
 };
 
 // Order API helper endpoints
 export const orderApi = {
-  getOrders: () => http.get("/orders"),
-  createOrder: (data) => http.post("/orders", data),
-  getOrderById: (id) => http.get(`/orders/${id}`),
+  getOrders: () => http.get("/order"),
+  createOrder: (data) => http.post("/order", data),
+  getOrderById: (id) => http.get(`/order/${id}`),
 };
 
 // Cart API helper endpoints

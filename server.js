@@ -40,9 +40,17 @@ app.use("/api/category", categoryRoutes);
 app.use("/api/food", foodRoutes);
 app.use("/api/cart", cartRoutes);
 app.use("/api/order", orderRoutes);
+
+// Health Check Route
+app.get("/health", (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "Backend is running",
+  });
+});
+
 // Server
 const PORT = process.env.PORT;
-
 app.listen(PORT, () => {
   console.log(`Server is listening at port number: ${PORT}`);
 });
