@@ -1,14 +1,15 @@
-export const categories = [
-  { id: "pizza", name: "Pizza", icon: "🍕" },
-  { id: "burger", name: "Burger", icon: "🍔" },
-  { id: "pasta", name: "Pasta", icon: "🍝" },
-  { id: "dessert", name: "Dessert", icon: "🍰" },
-  { id: "drinks", name: "Drinks", icon: "🥤" },
-  { id: "salads", name: "Salads", icon: "🥗" }
-];
+import mongoose from "mongoose";
+import dotenv from "dotenv/config";
+import dns from "dns";
 
-export const menuItems = [
-  {
+import Category from "./models/Category.js";
+import Food from "./models/Food.js";
+
+dns.setServers(["8.8.8.8", "8.8.4.4"]);
+console.log("Seed file started");
+
+const menuItems = [
+    {
     id: 1,
     name: "Margherita Pizza",
     category: "pizza",
@@ -216,58 +217,54 @@ export const menuItems = [
     image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=900&q=80"
   }
 ];
+try {
+    await mongoose.connect(process.env.MONGO_URI);
 
-await mongoose.connect(process.env.MONGO_URI);
+console.log("MongoDB Connected");
 
-console.log("✅ MongoDB Connected");
+await Category.deleteMany({});
 
-await Food.deleteMany();
-await Category.deleteMany();
+const categoryNames = [
+  "pizza",
+  "burger",
+  "pasta",
+  "dessert",
+  "drinks",
+  "salads",
+];
 
-const categories = await Category.insertMany([
-  {
-    name: "Pizza",
-    description: "Delicious pizzas"
-  },
-  {
-    name: "Burger",
-    description: "Fresh burgers"
-  },
-  {
-    name: "Pasta",
-    description: "Italian pasta"
-  },
-  {
-    name: "Dessert",
-    description: "Sweet desserts"
-  },
-  {
-    name: "Drinks",
-    description: "Refreshing drinks"
-  },
-  {
-    name: "Salads",
-    description: "Healthy salads"
-  }
-]);
+const categoryDocs = await Category.insertMany(
+  categoryNames.map((name) => ({
+    name,
+    description: `${name} category`,
+  }))
+);
+
+console.log("Categories inserted");
 
 const categoryMap = {};
 
-categories.forEach((cat) => {
-  categoryMap[cat.name.toLowerCase()] = cat._id;
+categoryDocs.forEach((cat) => {
+  categoryMap[cat.name] = cat._id;
 });
 
-const foods = menuItems.map((food) => ({
-  name: food.name,
-  description: food.description,
-  price: food.price,
-  image: food.image,
-  category: categoryMap[food.category.toLowerCase()],
+await Food.deleteMany({});
+
+const foods = menuItems.map((item) => ({
+  name: item.name,
+  description: item.description,
+  price: item.price,
+  image: item.image,
+  category: categoryMap[item.category],
 }));
 
 await Food.insertMany(foods);
 
-console.log("✅ Categories inserted:", categories.length);
-console.log("✅ Foods inserted:", foods.length);
+console.log("Foods inserted");
 
-process.exit();
+await mongoose.disconnect();
+
+console.log("Database seeded successfully");
+} catch (err) {
+     console.log(err);
+}

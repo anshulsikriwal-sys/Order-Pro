@@ -2,19 +2,14 @@ import { cartApi, isBackendUp } from "../services/api";
 import { getCart, saveCart } from "./storage";
 import { getCurrentUser } from "./auth";
 
-console.log("Food object:", food);
-console.log("Sending:", {
-  foodId: food._id,
-  quantity,
-});
 export async function addFoodToCart(food, quantity = 1) {
+  console.log("Food object:", food);
+      console.log("food._id:", food._id);
+      console.log("food.id:", food.id);
   const user = getCurrentUser();
 
   if (user?.source === "backend" && (await isBackendUp())) {
     try {
-      console.log("Food object:", food);
-      console.log("food._id:", food._id);
-      console.log("food._id:", food._id);
       await cartApi.addToCart({foodId: food._id,quantity,});
     } catch (err) {
       console.warn("Backend add-to-cart failed, using local cart.", err.message);
