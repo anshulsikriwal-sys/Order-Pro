@@ -101,14 +101,7 @@ activeCategory === "all"
     if (sort === "rating") list = [...list].sort((a, b) => b.rating - a.rating);
 
     return list;
-  },[
-  foodsData,
-  activeCategory,
-  query,
-  maxPrice,
-  minRating,
-  sort
-]);
+  ([foodsData,activeCategory,query,maxPrice,minRating,sort]);
 
   return (
     <section className="page-bg py-14">
