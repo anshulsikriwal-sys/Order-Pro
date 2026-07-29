@@ -19,7 +19,7 @@ function setCurrentUser(user) {
 export async function registerUser({ name, email, password, phone, address }) {
   const normalizedEmail = email.trim().toLowerCase();
 
-  if (await isBackendUp()) {
+
     try {
       await authApi.register({ name, email: normalizedEmail, password, phone, address });
       // Backend signup doesn't return a token, so log in right after.
@@ -33,7 +33,6 @@ export async function registerUser({ name, email, password, phone, address }) {
       const message = err.response?.data?.message || "Registration failed. Please try again.";
       return { success: false, message };
     }
-  }
 
   // Offline / backend-down fallback so the UI keeps working.
   const users = getLocalUsers();

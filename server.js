@@ -43,10 +43,7 @@ app.use("/api/order", orderRoutes);
 
 // Health Check Route
 app.get("/health", (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: "Backend is running",
-  });
+  res.send("HEALTH ROUTE WORKING - VERSION 12345");
 });
 
 // Server
