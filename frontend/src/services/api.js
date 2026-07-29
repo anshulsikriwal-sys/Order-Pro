@@ -54,7 +54,7 @@ export const orderApi = {
 // Cart API helper endpoints
 export const cartApi = {
   getCart: () => http.get("/cart"),
-  addToCart: (item) => http.post("/cart", item),
+  addToCart: (data) => http.post("/cart", data),
   removeFromCart: (itemId) => http.delete(`/cart/${itemId}`),
   clearCart: () => http.delete("/cart"),
 };
