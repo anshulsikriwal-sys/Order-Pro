@@ -25,6 +25,38 @@ function Menu() {
   const [ref, visible] = useReveal();
   const [foodsData, setFoodsData] = useState([]);
 const [loading, setLoading] = useState(true);
+const [menuItems, setMenuItems] = useState([]);
+const [loading,setLoading] = useState(true);
+
+useEffect(()=>{
+
+const fetchFoods = async()=>{
+
+try{
+
+const res = await fetch(
+"https://order-d56trwrct-anshul86.vercel.app/api/foods"
+);
+
+const data = await res.json();
+
+setMenuItems(data.foods);
+
+}
+catch(err){
+console.log(err);
+}
+
+finally{
+setLoading(false);
+}
+
+}
+
+fetchFoods();
+
+},[]);
+
 
   useEffect(() => {
     if (mode === "dine-in") toast("Dine-in mode: your order will be served at your table.", { icon: "🍽️" });
@@ -49,7 +81,10 @@ useEffect(() => {
 }, []);
   const foods = useMemo(() => {
    let list =
-  activeCategory === "all"? foodsData: foodsData.filter((item) => item.category?.name === activeCategory);
+activeCategory === "all"
+? menuItems
+: menuItems.filter(
+(item)=>item.category.name === activeCategory);})
 
     if (query.trim()) {
       const q = query.trim().toLowerCase();
