@@ -1,15 +1,33 @@
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import { menuItems } from "../../data/menu";
+// import { menuItems } from "../../data/menu";
 import { money, toggleWishlist, isWishlisted } from "../../utils/storage";
 import { isAuthenticated } from "../../utils/auth";
 import { addFoodToCart } from "../../utils/cartActions";
 import useReveal from "../../hooks/useReveal";
+import { useEffect, useState } from "react";
+import { http } from "../../services/api";
 
 function FavouriteFoods() {
   const navigate = useNavigate();
   const [ref, visible] = useReveal();
-  const favourites = menuItems.slice().sort((a, b) => b.rating - a.rating).slice(0, 4);
+
+  const [foods, setFoods] = useState([]);
+
+  useEffect(() => {
+    const fetchFoods = async () => {
+      try {
+        const res = await http.get("/food");
+        setFoods(res.data.foods);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    fetchFoods();
+  }, []);
+
+  const favourites = foods.slice().sort((a, b) => b.rating - a.rating).slice(0, 4);
 
   const addToCart = async (food) => {
     if (!isAuthenticated()) {
@@ -42,7 +60,7 @@ function FavouriteFoods() {
         <div ref={ref} className={`grid sm:grid-cols-2 lg:grid-cols-4 gap-5 ${visible ? "stagger" : ""}`}>
           {favourites.map((food) => (
             <div
-              key={food.id}
+              key={food._id}
               className={`food-card mx-auto w-full card bg-base-200 shadow-xl overflow-hidden card-hover relative ${
                 visible ? "" : "reveal-out"
               }`}
@@ -52,7 +70,7 @@ function FavouriteFoods() {
                 className="absolute top-2 right-2 z-10 btn btn-circle btn-xs bg-base-100/80 border-none btn-press"
                 aria-label="Toggle wishlist"
               >
-                {isWishlisted(food.id) ? "❤️" : "🤍"}
+                {isWishlisted(food._id) ? "❤️" : "🤍"}
               </button>
               <img src={food.image} alt={food.name} className="food-image" />
               <div className="card-body">
