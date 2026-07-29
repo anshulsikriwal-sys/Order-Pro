@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+export const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:5001/api";
 export const TOKEN_KEY = "orderpro_token";
 
 // Base Axios instance
@@ -30,7 +30,7 @@ export const clearToken = () => {
 // Backend health check function
 export const isBackendUp = async () => {
   try {
-    const res = await http.get("/health");
+    const res = await axios.get("https://order-pro-backend.onrender.com/health");
     return res.status === 200;
   } catch (err) {
     return false;
