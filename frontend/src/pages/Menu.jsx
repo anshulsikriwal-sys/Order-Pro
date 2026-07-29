@@ -2,8 +2,9 @@ import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import FoodCard from "../components/food/FoodCard";
-import { categories, menuItems } from "../data/menu";
 import useReveal from "../hooks/useReveal";
+import { categories } from "../data/menu";
+import { http } from "../services/api";
 
 const SORT_OPTIONS = [
   { id: "default", label: "Sort: Featured" },
@@ -22,6 +23,8 @@ function Menu() {
   const [minRating, setMinRating] = useState(0);
   const [sort, setSort] = useState("default");
   const [ref, visible] = useReveal();
+  const [foodsData, setFoodsData] = useState([]);
+const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (mode === "dine-in") toast("Dine-in mode: your order will be served at your table.", { icon: "🍽️" });
@@ -29,10 +32,24 @@ function Menu() {
     if (mode === "qr") toast("Ordering via QR menu.", { icon: "📱" });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+useEffect(() => {
+  const fetchFoods = async () => {
+    try {
+      const res = await http.get("/food");
+      setFoodsData(res.data.foods);
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to load menu");
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  fetchFoods();
+}, []);
   const foods = useMemo(() => {
-    let list =
-      activeCategory === "all" ? menuItems : menuItems.filter((item) => item.category === activeCategory);
+   let list =
+  activeCategory === "all"? foodsData: foodsData.filter((item) => item.category?.name === activeCategory);
 
     if (query.trim()) {
       const q = query.trim().toLowerCase();
@@ -49,7 +66,14 @@ function Menu() {
     if (sort === "rating") list = [...list].sort((a, b) => b.rating - a.rating);
 
     return list;
-  }, [activeCategory, query, maxPrice, minRating, sort]);
+  },[
+  foodsData,
+  activeCategory,
+  query,
+  maxPrice,
+  minRating,
+  sort
+]);
 
   return (
     <section className="page-bg py-14">
@@ -135,7 +159,7 @@ function Menu() {
         ) : (
           <div ref={ref} className={`grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 ${visible ? "stagger" : ""}`}>
             {foods.map((food) => (
-              <div key={food.id} className={visible ? "" : "reveal-out"}>
+              <div key={food._id} className={visible ? "" : "reveal-out"}>
                 <FoodCard food={food} />
               </div>
             ))}

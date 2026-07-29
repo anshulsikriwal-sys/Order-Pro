@@ -7,7 +7,7 @@ import { addFoodToCart } from "../../utils/cartActions";
 
 function FoodCard({ food }) {
   const navigate = useNavigate();
-  const [wishlisted, setWishlisted] = useState(isWishlisted(food.id));
+  const [wishlisted, setWishlisted] = useState(isWishlisted(food._id));
   const [justAdded, setJustAdded] = useState(false);
 
   const addToCart = async () => {

@@ -41,7 +41,7 @@ function ChatBubbles({ messages, onAdd }) {
           {msg.items?.length > 0 && (
             <div className="flex flex-col gap-2 mt-2 max-w-xs">
               {msg.items.map((food) => (
-                <div key={food.id} className="card card-side bg-base-100 shadow chat-bubble-in">
+                <div key={food._id} className="card card-side bg-base-100 shadow chat-bubble-in">
                   <img src={food.image} alt={food.name} className="w-16 h-16 object-cover" />
                   <div className="card-body p-2">
                     <p className="font-bold text-sm">{food.name}</p>

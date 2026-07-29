@@ -1,5 +1,5 @@
-import { menuItems, categories } from "../data/menu";
-
+// import { menuItems, categories } from "../data/menu";
+import { categories } from "../data/menu";
 const VEG_ITEMS = new Set(["salads", "dessert", "drinks"]);
 const CATEGORY_WORDS = categories.reduce((map, c) => {
   map[c.id] = [c.id, c.name.toLowerCase()];
@@ -30,13 +30,13 @@ function matchCategory(text) {
  * API key is configured in this project) — it reasons over the menu
  * catalogue using budget, category, mood and rating signals.
  */
-export function getRecommendation(message) {
+export function getRecommendation(message, foods) {
   const text = message.toLowerCase();
 
   if (/hi|hello|hey|help/.test(text) && text.length < 20) {
     return {
       reply: "Hey! I'm the OrderPro assistant. Tell me a craving, a budget, or a mood (e.g. \"something spicy under ₹300\") and I'll pick dishes for you. I can also help with delivery, timings, or your order status.",
-      items: menuItems.slice().sort((a, b) => b.rating - a.rating).slice(0, 3)
+      items: foods.slice().sort((a, b) => b.rating - a.rating).slice(0, 3)
     };
   }
 
