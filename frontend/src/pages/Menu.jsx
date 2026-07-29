@@ -24,7 +24,6 @@ function Menu() {
   const [sort, setSort] = useState("default");
   const [ref, visible] = useReveal();
   const [foodsData, setFoodsData] = useState([]);
-const [loading, setLoading] = useState(true);
 const [menuItems, setMenuItems] = useState([]);
 const [loading,setLoading] = useState(true);
 
