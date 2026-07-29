@@ -7,6 +7,9 @@ export async function addFoodToCart(food, quantity = 1) {
 
   if (user?.source === "backend" && (await isBackendUp())) {
     try {
+      console.log("Food object:", food);
+      console.log("food.id:", food.id);
+      console.log("food._id:", food._id);
       await cartApi.addToCart({foodId: food.id,quantity,});
     } catch (err) {
       console.warn("Backend add-to-cart failed, using local cart.", err.message);
