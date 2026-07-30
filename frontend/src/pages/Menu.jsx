@@ -68,11 +68,7 @@ const foods = useMemo(() => {
   if (query.trim()) {
     const q = query.toLowerCase();
 
-    list = list.filter(
-      (item) =>
-        item.name.toLowerCase().includes(q) ||
-        item.description.toLowerCase().includes(q)
-    );
+    list = list.filter(item => item.price <= maxPrice);
   }
 
   list = list.filter(
