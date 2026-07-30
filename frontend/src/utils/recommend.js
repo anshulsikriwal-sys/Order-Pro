@@ -66,7 +66,7 @@ export function getRecommendation(message, foods) {
   const wantsVeg = /veg\b|vegetarian/.test(text) && !/non.?veg/.test(text);
   const wantsTopRated = /best|top rated|popular|recommend/.test(text);
 
-  let pool = foods.slice();
+  let pool = menuItems.slice();
   if (categoryId) pool = pool.filter((item) => item.category === categoryId);
   if (budget) pool = pool.filter((item) => item.price <= budget);
   if (wantsVeg) pool = pool.filter((item) => VEG_ITEMS.has(item.category) || item.category !== "burger");
@@ -76,7 +76,7 @@ export function getRecommendation(message, foods) {
   if (pool.length === 0) {
     return {
       reply: "I couldn't find a close match for that — try a different budget or category, or browse the full menu.",
-      items: foods.slice().sort((a, b) => b.rating - a.rating).slice(0, 3)
+      items: menuItems.slice().sort((a, b) => b.rating - a.rating).slice(0, 3)
     };
   }
 
