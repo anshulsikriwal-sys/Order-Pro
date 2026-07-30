@@ -90,6 +90,8 @@ console.log(menuItems);
   if (sort === "rating")
     list.sort((a, b) => b.rating - a.rating);
 
+  console.log(menuItems[0]);
+  
   return list;
 }, [menuItems, activeCategory, query, maxPrice, minRating, sort]);
 console.log("foods length:", foods.length);
