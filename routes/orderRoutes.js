@@ -7,9 +7,12 @@ import {
   getOrderById,
   updateOrderStatus,
   cancelOrder,
+  createOrder,
 } from "../controllers/orderController.js";
 
 const router = express.Router();
+
+router.post("/", authMiddleware, createOrder);
 
 router.post("/", authMiddleware, placeOrder);
 
