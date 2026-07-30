@@ -69,14 +69,14 @@ export function getRecommendation(message,foods) {
   let pool = [...foods];
   if (categoryId) pool = pool.filter((item) => item.category?.name === categoryId);
   if (budget) pool = pool.filter((item) => item.price <= budget);
-  if (wantsVeg) pool = pool.filter((item) => VEG_ITEMS.has(item.category) || item.category?.name !== "burger");
+  if (wantsVeg) pool = pool.filter((item) => VEG_ITEMS.has(item.category?.name) || item.category?.name !== "burger");
 
   pool.sort((a, b) => b.rating - a.rating);
 
   if (pool.length === 0) {
     return {
       reply: "I couldn't find a close match for that — try a different budget or category, or browse the full menu.",
-      items: menuItems.slice().sort((a, b) => b.rating - a.rating).slice(0, 3)
+      items: foods.slice().sort((a, b) => b.rating - a.rating).slice(0, 3)
     };
   }
 
