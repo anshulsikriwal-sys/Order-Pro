@@ -36,6 +36,7 @@ const [loading,setLoading] = useState(true);
   }, []);
 useEffect(() => {
   const fetchFoods = async () => {
+    console.log(menuItems);
     try {
       const res = await http.get("/food");
 
@@ -52,6 +53,10 @@ useEffect(() => {
 
   fetchFoods();
 }, []);
+
+console.log("menuItems length:", menuItems.length);
+console.log(menuItems);
+
  const foods = useMemo(() => {
   let list =
     activeCategory === "all"
@@ -87,7 +92,8 @@ useEffect(() => {
 
   return list;
 }, [menuItems, activeCategory, query, maxPrice, minRating, sort]);
-
+console.log("foods length:", foods.length);
+console.log(foods);
   return (
     <section className="page-bg py-14">
       <div className="max-w-7xl mx-auto px-5">
