@@ -175,10 +175,10 @@ console.log(foods);
         ) : (
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
             {foods.map((food) => (
-              <div key={food._id} className={visible ? "" : "reveal-out"}>
+              <div key={food._id} >
                 <FoodCard food={food} />
               </div>
-            ))}
+            ))}                 
           </div>
         )}
       </div>
@@ -187,3 +187,4 @@ console.log(foods);
 }
 
 export default Menu;
+{/* <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"></div> */}
