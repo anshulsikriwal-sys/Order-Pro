@@ -52,7 +52,7 @@ function Cart() {
     toast.success("Cart cleared");
   };
 
-  const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const subtotal = cart.reduce((sum, item) => sum + item.food.price * item.quantity, 0);
   const tax = Math.round(subtotal * 0.05);
   const total = subtotal + tax;
 
@@ -101,18 +101,18 @@ function Cart() {
           <div className="space-y-4 stagger">
             {cart.map((item) => (
               <div key={item._id} className="card card-side bg-base-200 shadow-xl card-hover">
-                <img src={item.image} alt={item.name} className="w-28 md:w-36 object-cover" />
+                <img src={item.food.image} alt={item.food.name} className="w-28 md:w-36 object-cover" />
                 <div className="card-body p-4">
                   <h2 className="card-title text-base">{item.name}</h2>
-                  <p className="text-warning font-bold">{money(item.price)}</p>
+                  <p className="text-warning font-bold">{money(item.food.price)}</p>
 
                   <div className="flex flex-wrap items-center gap-2 mt-2">
-                    <button className="btn btn-sm btn-press" onClick={() => updateQuantity(item._id, -1)}>−</button>
+                    <button className="btn btn-sm btn-press" onClick={() => updateQuantity(item.food._id, -1)}>−</button>
                     <span className="font-bold px-2">{item.quantity}</span>
-                    <button className="btn btn-sm btn-press" onClick={() => updateQuantity(item._id, 1)}>+</button>
+                    <button className="btn btn-sm btn-press" onClick={() => updateQuantity(item.food._id, 1)}>+</button>
                     <button
                       className="btn btn-sm btn-error btn-outline ml-auto btn-press"
-                      onClick={() => removeItem(item._id)}
+                      onClick={() => removeItem(item.food._id)}
                     >
                       🗑️ Delete
                     </button>
