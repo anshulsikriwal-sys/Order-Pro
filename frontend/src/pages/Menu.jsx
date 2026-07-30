@@ -36,7 +36,7 @@ const [loading,setLoading] = useState(true);
   }, []);
 useEffect(() => {
   const fetchFoods = async () => {
-    console.log(menuItems);
+    console.log(JSON.stringify(menuItems[0], null, 2));
     try {
       const res = await http.get("/food");
 
@@ -64,7 +64,6 @@ console.log(menuItems);
       : menuItems.filter(
           (item) => item.category === activeCategory
         );
-
   if (query.trim()) {
     const q = query.toLowerCase();
 
@@ -91,7 +90,7 @@ console.log(menuItems);
     list.sort((a, b) => b.rating - a.rating);
 
   console.log(menuItems[0]);
-  
+
   return list;
 }, [menuItems, activeCategory, query, maxPrice, minRating, sort]);
 console.log("foods length:", foods.length);
