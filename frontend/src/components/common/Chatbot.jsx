@@ -89,7 +89,7 @@ function Chatbot({ variant = "floating" }) {
     setTyping(true);
 
     setTimeout(() => {
-      const { reply, items } = getRecommendation(value,foods);
+      const { reply, items } = getRecommendation(value);
       setMessages((prev) => [...prev, { from: "bot", text: reply, items }]);
       setTyping(false);
     }, 550);
