@@ -69,7 +69,7 @@ function Contact() {
           </div>
 
           <div id="booking" className="reveal-in" style={{ animationDelay: "0.15s" }}>
-            <Chatbot variant="inline"/>
+            <Chatbot variant="inline" foods={menuItems} />
           </div>
         </div>
       </div>

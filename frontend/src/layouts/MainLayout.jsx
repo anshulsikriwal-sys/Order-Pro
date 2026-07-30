@@ -11,7 +11,7 @@ function MainLayout() {
         <Outlet />
       </main>
       <Footers />
-      <Chatbot variant="floating"  />
+      <Chatbot variant="floating" foods={menuItems} />
     </div>
   );
 }
