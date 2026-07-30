@@ -62,7 +62,7 @@ console.log(menuItems);
     activeCategory === "all"
       ? [...menuItems]
       : menuItems.filter(
-          (item) => item.category?.name === activeCategory
+          (item) => item.category === activeCategory
         );
 
   if (query.trim()) {
