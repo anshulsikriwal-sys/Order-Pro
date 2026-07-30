@@ -37,7 +37,7 @@ const [loading,setLoading] = useState(true);
 useEffect(() => {
   const fetchFoods = async () => {
     try {
-      const res = await http.get("/foods");
+      const res = await http.get("/food");
       setMenuItems(res.data.foods);
     } catch (error) {
       console.log(error);
