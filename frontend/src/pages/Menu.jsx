@@ -57,13 +57,14 @@ useEffect(() => {
 console.log("menuItems length:", menuItems.length);
 console.log(menuItems);
 
- const foods = useMemo(() => {
+const foods = useMemo(() => {
   let list =
     activeCategory === "all"
       ? [...menuItems]
       : menuItems.filter(
           (item) => item.category === activeCategory
         );
+
   if (query.trim()) {
     const q = query.toLowerCase();
 
@@ -89,10 +90,12 @@ console.log(menuItems);
   if (sort === "rating")
     list.sort((a, b) => b.rating - a.rating);
 
-  console.log(menuItems[0]);
+  // 👇 ADD THIS
+  console.log(JSON.stringify(menuItems[0], null, 2));
 
   return list;
 }, [menuItems, activeCategory, query, maxPrice, minRating, sort]);
+
 console.log("foods length:", foods.length);
 console.log(foods);
   return (
