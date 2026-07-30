@@ -2,17 +2,31 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { getCart, saveCart, money, hasActiveOrder, getActiveOrder } from "../utils/storage";
-
+import { cartApi } from "../services/api";
 function Cart() {
   const navigate = useNavigate();
-  const res = await cartApi.getCart();
   const [cart, setCart] = useState([]);
   const [activeOrder, setActiveOrder] = useState(null);
 
   useEffect(() => {
-    setCart(res.data.cart.items);
-    setActiveOrder(getActiveOrder());
-  }, []);
+  const fetchCart = async () => {
+    try {
+      const res = await cartApi.getCart();
+
+      console.log(res.data);
+
+      // We'll adjust this line after seeing your API response
+      setCart(res.data.cart.items);
+
+      setActiveOrder(getActiveOrder());
+    } catch (err) {
+      console.log(err);
+      toast.error("Failed to load cart");
+    }
+  };
+
+  fetchCart();
+}, []);
 
   const updateQuantity = (id, change) => {
     const updated = cart
