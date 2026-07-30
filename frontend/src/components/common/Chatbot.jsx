@@ -63,7 +63,7 @@ function ChatBubbles({ messages, onAdd }) {
   );
 }
 
-function Chatbot({ variant = "floating" }) {
+function Chatbot({ variant = "floating" , foods = []}) {
   const [open, setOpen] = useState(variant === "inline");
   const [input, setInput] = useState("");
   const [typing, setTyping] = useState(false);
@@ -89,7 +89,7 @@ function Chatbot({ variant = "floating" }) {
     setTyping(true);
 
     setTimeout(() => {
-      const { reply, items } = getRecommendation(value);
+      const { reply, items } = getRecommendation(value,foods);
       setMessages((prev) => [...prev, { from: "bot", text: reply, items }]);
       setTyping(false);
     }, 550);

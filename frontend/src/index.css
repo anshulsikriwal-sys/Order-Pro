@@ -160,10 +160,10 @@ a {
 /* chatbot */
 .chat-fab {
   position: fixed;
-  right: 20px;
-  bottom: 20px;
+  right: 40px;
+  bottom: 40px;
   z-index: 60;
-  animation: floatY 3.5s ease-in-out infinite;
+  animation: floatY 5.5s ease-in-out infinite;
 }
 
 .chat-panel {
