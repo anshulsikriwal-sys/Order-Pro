@@ -30,7 +30,7 @@ function matchCategory(text) {
  * API key is configured in this project) — it reasons over the menu
  * catalogue using budget, category, mood and rating signals.
  */
-export function getRecommendation(message, foods) {
+export function getRecommendation(message,foods) {
   const text = message.toLowerCase();
 
   if (/hi|hello|hey|help/.test(text) && text.length < 20) {
@@ -66,10 +66,10 @@ export function getRecommendation(message, foods) {
   const wantsVeg = /veg\b|vegetarian/.test(text) && !/non.?veg/.test(text);
   const wantsTopRated = /best|top rated|popular|recommend/.test(text);
 
-  let pool = menuItems.slice();
-  if (categoryId) pool = pool.filter((item) => item.category === categoryId);
+  let pool = [...foods];
+  if (categoryId) pool = pool.filter((item) => item.category?.name === categoryId);
   if (budget) pool = pool.filter((item) => item.price <= budget);
-  if (wantsVeg) pool = pool.filter((item) => VEG_ITEMS.has(item.category) || item.category !== "burger");
+  if (wantsVeg) pool = pool.filter((item) => VEG_ITEMS.has(item.category) || item.category?.name !== "burger");
 
   pool.sort((a, b) => b.rating - a.rating);
 
