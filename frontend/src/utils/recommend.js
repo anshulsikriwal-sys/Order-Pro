@@ -67,9 +67,9 @@ export function getRecommendation(message, foods) {
   const wantsTopRated = /best|top rated|popular|recommend/.test(text);
 
   let pool = foods.slice();
-  if (categoryId) pool = pool.filter((item) => item.category?.name === categoryId);
+  if (categoryId) pool = pool.filter((item) => item.category === categoryId);
   if (budget) pool = pool.filter((item) => item.price <= budget);
-  if (wantsVeg) pool = pool.filter((item) => VEG_ITEMS.has(item.category?.name));
+  if (wantsVeg) pool = pool.filter((item) => VEG_ITEMS.has(item.category) || item.category !== "burger");
 
   pool.sort((a, b) => b.rating - a.rating);
 
