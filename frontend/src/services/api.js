@@ -46,9 +46,9 @@ export const authApi = {
 
 // Order API helper endpoints
 export const orderApi = {
-  getOrders: () => api.get("/order"),
-  createOrder: (data) => api.post("/order", data),
-  getOrderById: (id) => api.get(`/order/${id}`),
+  getOrders: () => http.get("/order"),
+  createOrder: (data) => http.post("/order", data),
+  getOrderById: (id) => http.get(`/order/${id}`),
 };
 
 // Cart API helper endpoints
