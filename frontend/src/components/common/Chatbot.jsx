@@ -5,7 +5,7 @@ import { getRecommendation } from "../../utils/recommend";
 import { money } from "../../utils/storage";
 import { isAuthenticated } from "../../utils/auth";
 import { addFoodToCart } from "../../utils/cartActions";
-
+import { http } from "../../services/api";
 const QUICK_PROMPTS = [
   "Something spicy under ₹300",
   "Best rated desserts",
@@ -63,7 +63,8 @@ function ChatBubbles({ messages, onAdd }) {
   );
 }
 
-function Chatbot({ variant = "floating" , foods = []}) {
+function Chatbot({ variant = "floating" }) {
+  const [foods, setFoods] = useState([]);
   const [open, setOpen] = useState(variant === "inline");
   const [input, setInput] = useState("");
   const [typing, setTyping] = useState(false);
@@ -75,6 +76,19 @@ function Chatbot({ variant = "floating" , foods = []}) {
     }
   ]);
   const scrollRef = useRef(null);
+  
+  useEffect(() => {
+  const fetchFoods = async () => {
+    try {
+      const res = await http.get("/food");
+      setFoods(res.data.foods);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  fetchFoods();
+}, []);
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
