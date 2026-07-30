@@ -38,9 +38,19 @@ export const addToCartService = async (userId, foodId, quantity) => {
 
 // Get Cart
 export const getCartService = async (userId) => {
-  return await Cart.findOne({ user: userId }).populate("items.food");
-};
+  let cart = await Cart.findOne({ user: userId }).populate("items.food");
 
+  if (!cart) {
+    cart = await Cart.create({
+      user: userId,
+      items: [],
+    });
+
+    cart = await Cart.findById(cart._id).populate("items.food");
+  }
+
+  return cart;
+};
 // Update Quantity
 export const updateCartService = async (
   userId,
