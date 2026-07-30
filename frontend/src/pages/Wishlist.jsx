@@ -11,12 +11,22 @@ function Wishlist() {
   const [ref, visible] = useReveal();
 
   useEffect(() => {
+  const loadWishlist = () => {
     setItems(getWishlist());
-  }, []);
+  };
+
+  loadWishlist();
+
+  window.addEventListener("orderpro:wishlist", loadWishlist);
+
+  return () => {
+    window.removeEventListener("orderpro:wishlist", loadWishlist);
+  };
+}, []);
 
   const remove = (food) => {
     toggleWishlist(food);
-    setItems((prev) => prev.filter((item) => item.id !== food.id));
+    setItems((prev) => prev.filter((item) => item._id !== food._id));
     toast.success("Removed from wishlist");
   };
 
@@ -45,7 +55,7 @@ function Wishlist() {
 
         <div ref={ref} className={`grid sm:grid-cols-2 lg:grid-cols-3 gap-5 ${visible ? "stagger" : ""}`}>
           {items.map((food) => (
-            <div key={food.id} className={`food-card mx-auto w-full card bg-base-200 shadow-xl overflow-hidden card-hover ${visible ? "" : "reveal-out"}`}>
+            <div key={food._id} className={`food-card mx-auto w-full card bg-base-200 shadow-xl overflow-hidden card-hover ${visible ? "" : "reveal-out"}`}>
               <img src={food.image} alt={food.name} className="food-image" />
               <div className="card-body">
                 <h2 className="card-title">{food.name}</h2>
