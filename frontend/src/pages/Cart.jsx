@@ -5,18 +5,19 @@ import { getCart, saveCart, money, hasActiveOrder, getActiveOrder } from "../uti
 
 function Cart() {
   const navigate = useNavigate();
+  const res = await cartApi.getCart();
   const [cart, setCart] = useState([]);
   const [activeOrder, setActiveOrder] = useState(null);
 
   useEffect(() => {
-    setCart(getCart());
+    setCart(res.data.cart.items);
     setActiveOrder(getActiveOrder());
   }, []);
 
   const updateQuantity = (id, change) => {
     const updated = cart
       .map((item) =>
-        item.id === id ? { ...item, quantity: item.quantity + change } : item
+        item._id === id ? { ...item, quantity: item.quantity + change } : item
       )
       .filter((item) => item.quantity > 0);
 
@@ -25,7 +26,7 @@ function Cart() {
   };
 
   const removeItem = (id) => {
-    const updated = cart.filter((item) => item.id !== id);
+    const updated = cart.filter((item) => item._id !== id);
     setCart(updated);
     saveCart(updated);
     toast.success("Item removed");
@@ -76,7 +77,7 @@ function Cart() {
         {activeOrder && (
           <div className="alert alert-warning mb-6 reveal-in">
             <span>
-              You have an active order ({activeOrder.id}) in progress. You can browse and edit your
+              You have an active order ({activeOrder._id}) in progress. You can browse and edit your
               cart, but you'll need to wait for it to complete before placing a new one.
             </span>
           </div>
@@ -85,19 +86,19 @@ function Cart() {
         <div className="grid lg:grid-cols-[1fr_360px] gap-8">
           <div className="space-y-4 stagger">
             {cart.map((item) => (
-              <div key={item.id} className="card card-side bg-base-200 shadow-xl card-hover">
+              <div key={item._id} className="card card-side bg-base-200 shadow-xl card-hover">
                 <img src={item.image} alt={item.name} className="w-28 md:w-36 object-cover" />
                 <div className="card-body p-4">
                   <h2 className="card-title text-base">{item.name}</h2>
                   <p className="text-warning font-bold">{money(item.price)}</p>
 
                   <div className="flex flex-wrap items-center gap-2 mt-2">
-                    <button className="btn btn-sm btn-press" onClick={() => updateQuantity(item.id, -1)}>−</button>
+                    <button className="btn btn-sm btn-press" onClick={() => updateQuantity(item._id, -1)}>−</button>
                     <span className="font-bold px-2">{item.quantity}</span>
-                    <button className="btn btn-sm btn-press" onClick={() => updateQuantity(item.id, 1)}>+</button>
+                    <button className="btn btn-sm btn-press" onClick={() => updateQuantity(item._id, 1)}>+</button>
                     <button
                       className="btn btn-sm btn-error btn-outline ml-auto btn-press"
-                      onClick={() => removeItem(item.id)}
+                      onClick={() => removeItem(item._id)}
                     >
                       🗑️ Delete
                     </button>

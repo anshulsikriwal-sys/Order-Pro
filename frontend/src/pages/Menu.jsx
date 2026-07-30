@@ -23,38 +23,9 @@ function Menu() {
   const [minRating, setMinRating] = useState(0);
   const [sort, setSort] = useState("default");
   const [ref, visible] = useReveal();
-  const [foodsData, setFoodsData] = useState([]);
 const [menuItems, setMenuItems] = useState([]);
 const [loading,setLoading] = useState(true);
 
-useEffect(()=>{
-
-const fetchFoods = async()=>{
-
-try{
-
-const res = await fetch(
-"https://order-d56trwrct-anshul86.vercel.app/api/foods"
-);
-
-const data = await res.json();
-
-setMenuItems(data.foods);
-
-}
-catch(err){
-console.log(err);
-}
-
-finally{
-setLoading(false);
-}
-
-}
-
-fetchFoods();
-
-},[]);
 
 
   useEffect(() => {
@@ -66,8 +37,7 @@ fetchFoods();
 useEffect(() => {
   const fetchFoods = async () => {
     try {
-      const res = await http.get("/food");
-      setFoodsData(res.data.foods);
+      fetch("https://order-d56trwrct-anshul86.vercel.app/api/foods")
     } catch (error) {
       console.log(error);
       toast.error("Failed to load menu");

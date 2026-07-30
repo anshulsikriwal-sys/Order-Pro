@@ -17,9 +17,9 @@ export async function addFoodToCart(food, quantity = 1) {
   }
 
   const cart = getCart();
-  const existing = cart.find((item) => item.id === food._id);
+  const existing = cart.find((item) => item._id === food._id);
   const updated = existing
-    ? cart.map((item) => (item.id === food._id ? { ...item, quantity: item.quantity + quantity } : item))
+    ? cart.map((item) => (item._id === food._id ? { ...item, quantity: item.quantity + quantity } : item))
     : [...cart, { ...food, quantity }];
 
   saveCart(updated);

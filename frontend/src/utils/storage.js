@@ -49,15 +49,15 @@ export function getWishlist() {
 
 export function toggleWishlist(food) {
   const list = getWishlist();
-  const exists = list.some((item) => item.id === food._id);
-  const updated = exists ? list.filter((item) => item.id !== food._id) : [...list, food];
+  const exists = list.some((item) => item._id === food._id);
+  const updated = exists ? list.filter((item) => item._id !== food._id) : [...list, food];
   localStorage.setItem(wishlistKeyFor(getCurrentUser()), JSON.stringify(updated));
   window.dispatchEvent(new Event("orderpro:wishlist"));
   return !exists;
 }
 
 export function isWishlisted(foodId) {
-  return getWishlist().some((item) => item.id === foodId);
+  return getWishlist().some((item) => item._id === foodId);
 }
 
 // ---- One-order-at-a-time rule ----
@@ -129,7 +129,7 @@ export async function cancelOrder(orderId) {
   }
 
   const updated = getOrders().map((order) =>
-    order.id === orderId ? { ...order, status: "Cancelled" } : order
+    order._id === orderId ? { ...order, status: "Cancelled" } : order
   );
   saveOrders(updated);
   return updated;
