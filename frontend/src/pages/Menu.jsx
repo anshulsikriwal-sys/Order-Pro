@@ -173,7 +173,7 @@ console.log(foods);
         {foods.length === 0 ? (
           <div className="alert">No food items match your filters.</div>
         ) : (
-          <div ref={ref} className={`grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 ${visible ? "stagger" : ""}`}>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
             {foods.map((food) => (
               <div key={food._id} className={visible ? "" : "reveal-out"}>
                 <FoodCard food={food} />
