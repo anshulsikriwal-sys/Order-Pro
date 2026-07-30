@@ -23,6 +23,8 @@ function Wishlist() {
     window.removeEventListener("orderpro:wishlist", loadWishlist);
   };
 }, []);
+console.log("Wishlist:", getWishlist());
+console.log("Items:", items);
 
   const remove = (food) => {
     toggleWishlist(food);
