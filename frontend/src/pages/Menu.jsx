@@ -38,9 +38,12 @@ useEffect(() => {
   const fetchFoods = async () => {
     try {
       const res = await http.get("/food");
+
+      console.log(res.data);
+
       setMenuItems(res.data.foods);
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      console.log(err);
       toast.error("Failed to load menu");
     } finally {
       setLoading(false);
