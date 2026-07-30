@@ -55,13 +55,13 @@ useEffect(() => {
  const foods = useMemo(() => {
   let list =
     activeCategory === "all"
-      ? menuItems
+      ? [...menuItems]
       : menuItems.filter(
           (item) => item.category?.name === activeCategory
         );
 
   if (query.trim()) {
-    const q = query.trim().toLowerCase();
+    const q = query.toLowerCase();
 
     list = list.filter(
       (item) =>
@@ -73,20 +73,17 @@ useEffect(() => {
   list = list.filter(
     (item) =>
       item.price <= maxPrice &&
-      (item.rating || 0) >= minRating
+      item.rating >= minRating
   );
 
-  if (sort === "price-low") {
-    list = [...list].sort((a, b) => a.price - b.price);
-  }
+  if (sort === "price-low")
+    list.sort((a, b) => a.price - b.price);
 
-  if (sort === "price-high") {
-    list = [...list].sort((a, b) => b.price - a.price);
-  }
+  if (sort === "price-high")
+    list.sort((a, b) => b.price - a.price);
 
-  if (sort === "rating") {
-    list = [...list].sort((a, b) => (b.rating || 0) - (a.rating || 0));
-  }
+  if (sort === "rating")
+    list.sort((a, b) => b.rating - a.rating);
 
   return list;
 }, [menuItems, activeCategory, query, maxPrice, minRating, sort]);

@@ -16,7 +16,7 @@ function Cart() {
       console.log(res.data);
 
       // We'll adjust this line after seeing your API response
-      setCart(res.data.cart.items);
+      setCart(res.data.cart?.items || []);
 
       setActiveOrder(getActiveOrder());
     } catch (err) {
