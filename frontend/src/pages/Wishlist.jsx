@@ -49,15 +49,15 @@ console.log("Items:", items);
       </section>
     );
   }
+  console.log(items[0]);
 
   return (
     <section className="py-14 page-bg">
       <div className="max-w-6xl mx-auto px-5">
         <h1 className="section-title mb-8">Your Wishlist</h1>
-
-        <div ref={ref} className={`grid sm:grid-cols-2 lg:grid-cols-3 gap-5 ${visible ? "stagger" : ""}`}>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {items.map((food) => (
-            <div key={food._id} className={`food-card mx-auto w-full card bg-base-200 shadow-xl overflow-hidden card-hover ${visible ? "" : "reveal-out"}`}>
+            <div key={food._id} className="food-card mx-auto w-full card bg-base-200 shadow-xl overflow-hidden card-hover">
               <img src={food.image} alt={food.name} className="food-image" />
               <div className="card-body">
                 <h2 className="card-title">{food.name}</h2>
