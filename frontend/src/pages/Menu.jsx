@@ -71,11 +71,11 @@ const foods = useMemo(() => {
     list = list.filter(item => item.price <= maxPrice);
   }
 
-  list = list.filter(
-    (item) =>
-      item.price <= maxPrice &&
-      item.rating >= minRating
-  );
+  // list = list.filter(
+  //   (item) =>
+  //     item.price <= maxPrice &&
+  //     item.rating >= minRating
+  // );
 
   if (sort === "price-low")
     list.sort((a, b) => a.price - b.price);
@@ -85,9 +85,6 @@ const foods = useMemo(() => {
 
   if (sort === "rating")
     list.sort((a, b) => b.rating - a.rating);
-
-  // 👇 ADD THIS
-  console.log(JSON.stringify(menuItems[0], null, 2));
 
   return list;
 }, [menuItems, activeCategory, query, maxPrice, minRating, sort]);
