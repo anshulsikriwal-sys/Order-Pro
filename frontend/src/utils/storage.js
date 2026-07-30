@@ -81,7 +81,7 @@ export async function placeOrder({ cart, total, deliveryAddress, paymentMethod }
 
   if (await isBackendUp() && user?.source === "backend") {
     try {
-      const res = await orderApi.place(deliveryAddress);
+      const res = await orderApi.createOrder(deliveryAddress);
       const order = res.data.order;
       return {
         success: true,
