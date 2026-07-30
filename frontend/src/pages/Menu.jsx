@@ -37,7 +37,8 @@ const [loading,setLoading] = useState(true);
 useEffect(() => {
   const fetchFoods = async () => {
     try {
-      fetch("https://order-d56trwrct-anshul86.vercel.app/api/foods")
+      const res = await http.get("/foods");
+      setMenuItems(res.data.foods);
     } catch (error) {
       console.log(error);
       toast.error("Failed to load menu");
@@ -48,28 +49,44 @@ useEffect(() => {
 
   fetchFoods();
 }, []);
-  const foods = useMemo(() => {
-   let list =
-activeCategory === "all"
-? menuItems
-: menuItems.filter(
-(item)=>item.category.name === activeCategory);})
+ const foods = useMemo(() => {
+  let list =
+    activeCategory === "all"
+      ? menuItems
+      : menuItems.filter(
+          (item) => item.category?.name === activeCategory
+        );
 
-    if (query.trim()) {
-      const q = query.trim().toLowerCase();
-      list = list.filter(
-        (item) =>
-          item.name.toLowerCase().includes(q) || item.description.toLowerCase().includes(q)
-      );
-       list = list.filter((item) => item.price <= maxPrice && item.rating >= minRating);
-    }
+  if (query.trim()) {
+    const q = query.trim().toLowerCase();
 
-    if (sort === "price-low") list = [...list].sort((a, b) => a.price - b.price);
-    if (sort === "price-high") list = [...list].sort((a, b) => b.price - a.price);
-    if (sort === "rating") list = [...list].sort((a, b) => b.rating - a.rating);
+    list = list.filter(
+      (item) =>
+        item.name.toLowerCase().includes(q) ||
+        item.description.toLowerCase().includes(q)
+    );
+  }
 
-    return list;
-  ([foodsData,activeCategory,query,maxPrice,minRating,sort]);
+  list = list.filter(
+    (item) =>
+      item.price <= maxPrice &&
+      (item.rating || 0) >= minRating
+  );
+
+  if (sort === "price-low") {
+    list = [...list].sort((a, b) => a.price - b.price);
+  }
+
+  if (sort === "price-high") {
+    list = [...list].sort((a, b) => b.price - a.price);
+  }
+
+  if (sort === "rating") {
+    list = [...list].sort((a, b) => (b.rating || 0) - (a.rating || 0));
+  }
+
+  return list;
+}, [menuItems, activeCategory, query, maxPrice, minRating, sort]);
 
   return (
     <section className="page-bg py-14">
