@@ -61,9 +61,8 @@ activeCategory === "all"
         (item) =>
           item.name.toLowerCase().includes(q) || item.description.toLowerCase().includes(q)
       );
+       list = list.filter((item) => item.price <= maxPrice && item.rating >= minRating);
     }
-
-    list = list.filter((item) => item.price <= maxPrice && item.rating >= minRating);
 
     if (sort === "price-low") list = [...list].sort((a, b) => a.price - b.price);
     if (sort === "price-high") list = [...list].sort((a, b) => b.price - a.price);
